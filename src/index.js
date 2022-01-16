@@ -66,14 +66,31 @@ function sendMessageToUsers(){
     }
 }
 
-function initializeMessageTimer() {
-    client.setInterval(function () {
+function startMessageTimer() {
+    
+    var now = new Date();
+    var timeTillMessage = new Date(
+            now.getFullYear(),
+            now.getMonth(),
+            now.getDate(),
+            config.TIME.split(":")[0],
+            config.TIME.split(":")[1],
+            0,
+            0
+        ) - now;
+    
+    if (timeTillMessage < 0) {
+        timeTillMessage += 86400000;
+    }
+
+    setTimeout(function(){
         sendMessageToUsers();
-    }, 24*60*60*1000);
+        startMessageTimer();
+    }, timeTillMessage);
 }
 
 client.on("ready", async function(){
-    initializeMessageTimer();
+    startMessageTimer();
 })
 
 client.login(config.BOT_TOKEN);

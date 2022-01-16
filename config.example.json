@@ -1,5 +1,6 @@
 {
     "BOT_TOKEN": "",
     "OWNER_TAG" : "",
-    "PREFIX" : "!fatfeck:"
+    "PREFIX" : "!fatfeck:",
+    "TIME" : "12:00"
 }

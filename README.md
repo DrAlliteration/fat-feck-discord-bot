@@ -49,6 +49,11 @@ Tokens:
     PREFIX
     ____________
     The prefix of the command (default: !fatfeck:)
+    
+    TIME
+    ____________
+    Time of the day, when the daily Fat Feck should be send (Format: HH:MM, default: 12:00)
+
 
 Start the Bot:
 
