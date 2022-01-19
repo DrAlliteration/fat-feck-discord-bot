@@ -21,11 +21,11 @@ client.on("message", async function(message) {
         let rawdata = fs.readFileSync('./src/data.json');
         let jsonData = JSON.parse(rawdata);
 
-        if(jsonData[message.author.id] != null){
+        if(message.author.id in jsonData){
             return message.author.send("You are already subscribing, Fat Feck :)");
         }else{
             // save new user
-            jsonData[message.author.id] = message.author;
+            jsonData[message.author.id] = message.author.id;
             fs.writeFileSync('./src/data.json', JSON.stringify(jsonData));
             return message.author.send("You're now a subscriber to the daily message, Fat Feck :)");
         }
@@ -37,7 +37,7 @@ client.on("message", async function(message) {
         let rawdata = fs.readFileSync('./src/data.json');
         let jsonData = JSON.parse(rawdata);
 
-        if(jsonData[message.author.id] != null){
+        if(message.author.id in jsonData){
             // delete user
             delete jsonData[message.author.id];
             console.log(jsonData);
@@ -57,16 +57,17 @@ client.on("message", async function(message) {
 });
 
 // send "Fat Feck" to the users
-function sendMessageToUsers(){
+async function sendMessageToUsers(){
     
     let rawdata = fs.readFileSync('./src/data.json');
     let jsonData = JSON.parse(rawdata);
 
-    for(var user in jsonData){
+    for(let userId in jsonData){
         try{
-            client.users.resolve(user).send("Fat Feck");
+            let user = await client.users.fetch(userId);
+            user.send("Fat Feck");
         }catch (e){
-            console.log(user + "\n" + e);
+            console.log(e);
         }
     }
 }
@@ -88,6 +89,7 @@ function startMessageTimer() {
         timeTillMessage += 86400000;
     }
 
+    console.log("Next message will be sent in: "+ timeTillMessage + "ms");
     setTimeout(async function(){
         sendMessageToUsers();
         startMessageTimer();
