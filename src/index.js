@@ -58,11 +58,16 @@ client.on("message", async function(message) {
 
 // send "Fat Feck" to the users
 function sendMessageToUsers(){
+    
     let rawdata = fs.readFileSync('./src/data.json');
     let jsonData = JSON.parse(rawdata);
 
     for(var user in jsonData){
-        client.users.resolve(user).send("Fat Feck");
+        try{
+            client.users.resolve(user).send("Fat Feck");
+        }catch (e){
+            console.log(user + "\n" + e);
+        }
     }
 }
 
