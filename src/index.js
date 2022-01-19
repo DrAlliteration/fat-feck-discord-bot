@@ -88,7 +88,7 @@ function startMessageTimer() {
         timeTillMessage += 86400000;
     }
 
-    setTimeout(function(){
+    setTimeout(async function(){
         sendMessageToUsers();
         startMessageTimer();
     }, timeTillMessage);
